@@ -1,0 +1,153 @@
+
+import React from 'react';
+import { CheckCircle2, Clock, AlertCircle, Receipt, ExternalLink } from 'lucide-react';
+
+const TenantPaymentHistory = ({ history = [] }) => {
+    // Helper to get status styles and icons
+    const getStatusDetails = (status) => {
+        switch (status) {
+            case 'Paid':
+                return {
+                    color: 'text-emerald-600',
+                    bg: 'bg-emerald-50',
+                    icon: <CheckCircle2 size={14} />,
+                    label: 'Succeeded'
+                };
+            case 'Pending':
+                return {
+                    color: 'text-amber-600',
+                    bg: 'bg-amber-50',
+                    icon: <Clock size={14} />,
+                    label: 'Pending'
+                };
+            case 'Unpaid':
+            default:
+                return {
+                    color: 'text-rose-600',
+                    bg: 'bg-rose-50',
+                    icon: <AlertCircle size={14} />,
+                    label: 'Unpaid'
+                };
+        }
+    };
+
+    return (
+        <div className="bg-white rounded-2xl md:rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-8">
+            {/* Header Section */}
+            <div className="p-4 md:p-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <h3 className="text-lg md:text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <Receipt className="text-indigo-500" size={20} /> Payment History
+                </h3>
+                <span className="w-fit bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-tight">
+                    {history.length} Records Found
+                </span>
+            </div>
+
+            <div className="w-full">
+                {/* --- MOBILE VIEW (Card Layout) --- */}
+                <div className="block md:hidden divide-y divide-gray-50">
+                    {history.map((item) => {
+                        const statusStyle = getStatusDetails(item.status);
+                        return (
+                            <div key={item._id} className="p-4 space-y-3 active:bg-gray-50 transition-colors">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Billing Month</p>
+                                        <p className="font-bold text-gray-800">{item.billingMonth}</p>
+                                    </div>
+                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${statusStyle.bg} ${statusStyle.color} text-[10px] font-bold uppercase tracking-wider`}>
+                                        {statusStyle.icon}
+                                        {statusStyle.label}
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Amount</p>
+                                        <p className="font-black text-gray-800">₹{(item.totalAmount || 0).toLocaleString('en-IN')}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Date</p>
+                                        <p className="text-sm text-gray-600">
+                                            {new Date(item.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="pt-2 flex items-center gap-2 border-t border-gray-50/50">
+                                    <p className="text-[10px] text-gray-400 font-mono truncate">
+                                        ID: {item.transactionId ? item.transactionId : 'N/A'}
+                                    </p>
+                                    {item.transactionId && <ExternalLink size={10} className="text-gray-300 shrink-0" />}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* --- DESKTOP VIEW (Table Layout) --- */}
+                <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-gray-50/50 text-gray-400 uppercase text-xs font-bold">
+                            <tr>
+                                <th className="px-6 py-4 tracking-wider">Billing Month</th>
+                                <th className="px-6 py-4 tracking-wider">Reference</th>
+                                <th className="px-6 py-4 tracking-wider">Amount</th>
+                                <th className="px-6 py-4 tracking-wider">Date</th>
+                                <th className="px-6 py-4 tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {history.map((item) => {
+                                const statusStyle = getStatusDetails(item.status);
+                                return (
+                                    <tr key={item._id} className="hover:bg-gray-50/50 transition-colors">
+                                        <td className="px-6 py-4 font-bold text-gray-700 whitespace-nowrap">
+                                            {item.billingMonth}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-2 max-w-[150px]">
+                                                <p className="text-xs text-gray-400 font-mono truncate">
+                                                    {item.transactionId || 'N/A'}
+                                                </p>
+                                                {item.transactionId && <ExternalLink size={12} className="text-gray-300 shrink-0" />}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 font-black text-gray-800 whitespace-nowrap">
+                                            ₹{(item.totalAmount || 0).toLocaleString('en-IN')}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-500 text-sm whitespace-nowrap">
+                                            {new Date(item.createdAt).toLocaleDateString('en-IN', {
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric'
+                                            })}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${statusStyle.bg} ${statusStyle.color} text-[10px] font-bold uppercase tracking-wider`}>
+                                                {statusStyle.icon}
+                                                {statusStyle.label}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Empty State */}
+                {history.length === 0 && (
+                    <div className="py-12 md:py-20 text-center">
+                        <div className="bg-gray-50 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Receipt className="text-gray-300" size={24} />
+                        </div>
+                        <p className="text-sm md:text-base text-gray-400 font-medium px-4">No payment records found for this period.</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default TenantPaymentHistory;
