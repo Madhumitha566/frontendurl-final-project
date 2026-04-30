@@ -1,18 +1,38 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🏨 Hostel Management System (HMS)
 
-Currently, two official plugins are available:
+A robust and user-friendly digital solution designed to automate the daily operations of a hostel or residential facility. This system replaces manual paper-based tracking with a centralized platform for managing students, room allocations, and fee payments.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Key Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+*   **User Authentication:** Secure login system for Admin,staff and residents with role-based access control.
+*   **Room Management:** Add, update, or delete rooms. Track occupancy levels and room types (e.g., Single, AC, Non-AC).
+*   **Student Onboarding:** Digital registration including personal details, emergency contacts, and document uploads.
+*   **Allocation System:** Automated logic for assigning rooms based on availability.
+*   **Fee Tracking:** Manage monthly rent, mess bills, and pending balances with automated receipt generation.
+*   **Complaint Portal:** Allows students to raise maintenance tickets and track their resolution status in real-time.
+*   **Dashboard Analytics:** Visual overview of total students, vacant rooms, and monthly revenue.
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | React.js  |
+| **Backend** | Node.js (Express)  |
+| **Database** |   MongoDB |
+| **Styling** | Tailwind CSS |
+
+
+#Access admin:
+gmail-admin@gmail.com
+password-admin123
+Staff:
+gmail-staff1@gmail.com
+password-staff123
+resident:(one of the resident)
+gmail-divya12@gmail.com
+password-divya123
